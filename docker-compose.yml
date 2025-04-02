@@ -7,9 +7,9 @@ services:
     ports:
       - "6002:6002"
     restart: unless-stopped
-    container_name: baseweb-frontend
+    container_name: airfiweb-frontend
     networks:
-      - baseweb-network
+      - airfiweb-network
 
   backend:
     build:
@@ -17,9 +17,8 @@ services:
     ports:
       - "5002:5002"
     restart: unless-stopped
-    container_name: baseweb-backend
+    container_name: airfiweb-backend
     environment:
-      NODE_ENV: ${NODE_ENV}
       BACKEND_PORT: ${BACKEND_PORT}
       DB_PORT: ${DB_PORT}
       DB_HOST: ${DB_HOST}
@@ -29,12 +28,12 @@ services:
     depends_on:
       - db
     networks:
-      - baseweb-network
+      - airfiweb-network
 
   db:
     image: postgres:latest
     restart: unless-stopped
-    container_name: baseweb-db
+    container_name: airfiweb-db
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -42,13 +41,13 @@ services:
     ports:
       - "7002:5432"
     volumes:
-      - baseweb_data:/var/lib/postgresql/data
+      - airfiweb_data:/var/lib/postgresql/data
     networks:
-      - baseweb-network
+      - airfiweb-network
 
 networks:
-  baseweb-network:
+  airfiweb-network:
     driver: bridge
 
 volumes:
-  baseweb_data:
+  airfiweb_data:
