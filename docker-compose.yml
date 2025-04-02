@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "6002:6002"
+    restart: unless-stopped
+    container_name: baseweb-frontend
+    networks:
+      - baseweb-network
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "5002:5002"
+    restart: unless-stopped
+    container_name: baseweb-backend
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      BACKEND_PORT: ${BACKEND_PORT}
+      DB_PORT: ${DB_PORT}
+      DB_HOST: ${DB_HOST}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+    depends_on:
+      - db
+    networks:
+      - baseweb-network
+
+  db:
+    image: postgres:latest
+    restart: unless-stopped
+    container_name: baseweb-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "7002:5432"
+    volumes:
+      - baseweb_data:/var/lib/postgresql/data
+    networks:
+      - baseweb-network
+
+networks:
+  baseweb-network:
+    driver: bridge
+
+volumes:
+  baseweb_data:
