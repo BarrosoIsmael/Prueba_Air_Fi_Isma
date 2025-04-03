@@ -26,5 +26,3 @@ dist-ssr
 # Node artifact files
 node_modules/
 dist/
-.env
-.env.*

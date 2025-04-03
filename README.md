@@ -1,143 +1,129 @@
 # Base Web Repository
 
 ## 📌 Overview
-This repository serves as the foundation for all my web projects. It includes a structured setup for both frontend and backend development using **Vite + React** for the frontend and **Node.js + PostgreSQL** for the backend.
+Este repositorio contiene la base para proyectos web con una arquitectura de frontend y backend. El frontend utiliza **Angular** y el backend está construido con **Node.js** y **PostgreSQL**. Además, se incluye soporte para ejecución local y en contenedores Docker.
+
+---
 
 ## 🚀 Getting Started
 
-### 1️⃣ Clone the repository and create a new repository
-```sh
-git clone https://github.com/JoaquinCatanzaritiTorrens/CodigoBaseWeb.git
-cd CodigoBaseWeb
-```
-After cloning the repository, follow these steps to push it to a new repository on GitHub:
-#### Rename the project directory (optional but recommended)
-On Windows, use the `ren` command to rename the directory:
+### 1️⃣ Requisitos previos
+Asegúrate de tener instalados los siguientes programas:
+- [Node.js](https://nodejs.org/) (versión 20 o superior)
+- [Docker](https://www.docker.com/)
+- [Angular CLI](https://angular.io/cli) (para desarrollo del frontend)
 
-```sh
-cd ..
-Rename-Item CodigoBaseWeb YOUR-NEW-PROJECT-NAME
-cd YOUR-NEW-PROJECT-NAME
-```
+---
 
-#### Remove the current Git history
-On Windows, use the `rmdir` command to remove the `.git` folder:
+### 2️⃣ Configuración inicial
+1. Clona este repositorio:
+   ```sh
+   git clone https://github.com/BarrosoIsmael/Prueba_Air_Fi_Isma.git
+   cd Prueba_Air_Fi_Isma
+   ```
 
-```sh
-Remove-Item -Recurse -Force .git
-```
+2. Configura las variables de entorno:
+   - Copia el archivo `.env` en la raíz del proyecto y ajusta los valores según tu entorno. (En mi caso te he subido el.env para que no tengas que hacerlo de zero)
 
-#### Initialize a new Git repository
+---
 
-```sh
-git init
-git branch -M main
-```
+## 🛠️ Ejecución en modo desarrollo
 
-#### Add the remote URL for your new repository
-Go to GitHub and create a new repository. Then, add the new repository as the remote origin:
+### Backend
+1. Ve al directorio del backend:
+   ```sh
+   cd backend
+   ```
 
-```sh
-git remote add origin https://github.com/JoaquinCatanzaritiTorrens/YOUR-NEW-PROJECT-NAME.git
-```
+2. Instala las dependencias:
+   ```sh
+   npm install
+   ```
 
-#### Add, commit, and push the changes
+3. Inicia el servidor en modo desarrollo:
+   ```sh
+   npm run dev
+   ```
 
-```sh
-git add .
-git commit -m "Initial commit"
-git push -u origin main
-```
+4. El backend estará disponible en `http://localhost:5002`.
 
-Your project is now set up in a new GitHub repository.
+---
 
+### Frontend
+1. Ve al directorio del frontend:
+   ```sh
+   cd frontend
+   ```
 
-### 2️⃣ Backend Setup
-```sh
-cd backend
-npm install  # Install dependencies
-```
+2. Instala las dependencias:
+   ```sh
+   npm install
+   ```
 
-#### ➤ Run the backend
-```sh
-npm run dev  # Starts backend with Nodemon
-```
+3. Inicia el servidor en modo desarrollo:
+   ```sh
+   npm start o ng serve
+   ```
+- si hay problema de permisos en tu pc ejecutar esta comanda 
+    
+    ```sh
+    Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass 
+   ```  
 
-### 3️⃣ Frontend Setup
-```sh
-cd frontend
-npm install  # Install dependencies
-```
+4. El frontend estará disponible en `http://localhost:4200`.
 
-#### ➤ Run the frontend
-```sh
-npm run dev  # Starts Vite development server
-```
-### 4️⃣ Docker Compose Setup
+---
 
-To run the entire stack using Docker Compose, follow these steps:
+## 🐳 Ejecución con Docker
 
-#### ➤ Build and start the containers
-```sh
-docker-compose up --build
-```
+### DOCKER COMPOSE DEV
 
-#### ➤ Stop the containers
-```sh
-docker-compose down
-```
+1. Ve al directorio del backend:
+   ```sh
+   cd backend
+   ```
 
-### 5️⃣ Cloudflare Tunnel Setup
+2. Construye y levanta el contenedor de la base de datos:
+   ```sh
+   docker-compose up -d
+   ```
+3. Accede a la base de datos de prueba:
+   - **Postgress** : `http://localhost:5432`
 
-#### ➤ Create the new tunnel
-```sh
-cloudflared tunnel create {NUEVO_TUNEL}
-```
+4. Para detener los contenedores:
+   ```sh
+   docker-compose down
+   ```
 
-#### ➤ Configure the tunnel
+   ![alt text](image.png)
+   password: admin
 
-Edit or create a new configuration file, for example:
-📄 `C:\Users\Joako\.cloudflared\config-{nuevo}.yml`
+---
 
-```yaml
-tunnel: {TUNNEL_ID_NUEVO}
-credentials-file: C:\Users\Joako\.cloudflared\{TUNNEL_ID_NUEVO}.json
+### DOCKER COMPOSE PROD
+1. Acceder a la carpeta raiz
 
-ingress:
-    - hostname: {nuevo}.joaquincatanzariti.com
-        service: http://localhost:{PUERTO}
-    - service: http_status:404
-```
+2. Construye y levanta el contenedor de la base de datos:
+   ```sh
+   docker-compose up -d
+   ```
+3. Accede a la base de datos de prueba:
+   - **Postgress** : `http://localhost:7002`
+   - **Frontend**: `http://localhost:6002`
+   - **Backend**: `http://localhost:5002`
 
-#### ➤ Link the tunnel with Cloudflare
-```sh
-cloudflared tunnel route dns {NUEVO_TUNEL} {nuevo}.joaquincatanzariti.com
-```
+4. Para detener los contenedores:
+   ```sh
+   docker-compose down
+   ```
+---
 
-#### ➤ Test the tunnel manually
-```sh
-cloudflared tunnel --config C:\Users\Joako\.cloudflared\config-{nuevo}.yml run
-```
-
-#### ➤ Create the service
-```sh
-sc create cloudflared-{nuevo} binPath= "\"C:\Program Files (x86)\cloudflared\cloudflared.exe\" --config C:\Users\Joako\.cloudflared\config-{nuevo}.yml tunnel run"
-```
-
-#### ➤ Start the service
-```sh
-net start cloudflared-{nuevo}
-```
 ## 📌 Tech Stack
 ### 🖥️ Frontend
-- **Vite + React**
+- **Angular**
 - TypeScript
 
 ### 🛠️ Backend
 - **Node.js + Express**
-- PostgreSQL (pg library)
+- PostgreSQL
 - TypeScript
-
-## 📜 License
-This project is licensed under the MIT License. Feel free to use and modify it! 🎉
-
